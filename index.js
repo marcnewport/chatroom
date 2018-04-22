@@ -1,3 +1,9 @@
+// Require environment variables
+require('dotenv').config();
+
+// Set constants
+const PORT = process.env.PORT || 3000;
+
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -12,9 +18,9 @@ io.on('connection', function(socket) {
   socket.on('message', function(message){
     io.emit('message', message);
   });
-
 });
 
-http.listen(3000, function(){
-  console.log('listening on port 3000');
+// Start server
+http.listen(PORT, function(){
+  console.log('listening on port', PORT);
 });

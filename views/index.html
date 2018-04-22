@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <title>chatroom</title>
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <ul class="messages"></ul>
+
+    <form>
+      <input type="text" name="message" placeholder="Message" autocomplete="off">
+      <input type="submit">
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+      var form = document.querySelector('form');
+      var messages = document.querySelector('.messages');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        console.log(form.message.value);
+
+        socket.emit('message', form.message.value);
+        form.message.value = '';
+      });
+
+      socket.on('message', function(message) {
+        var li = document.createElement('li');
+        li.classList.add('messages__message');
+        li.innerText = message;
+
+        messages.appendChild(li);
+      });
+    </script>
+  </body>
+</html>
